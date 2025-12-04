@@ -23,10 +23,10 @@ public class UserController {
         Long count = redisTemplate.opsForValue()
                 .increment("cnt:/api/users:total");
 
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("users", users);
-        responseBody.put("count", count);
+        Map<String, Object> response = new HashMap<>();
+        response.put("users", users);
+        response.put("count", count);
 
-        return Resp.ok(responseBody);    
+        return Resp.ok(response);    
     }
 }
