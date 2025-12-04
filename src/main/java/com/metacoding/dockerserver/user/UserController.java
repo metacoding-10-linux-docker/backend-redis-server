@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.http.*;
 import com.metacoding.dockerserver.core.util.Resp;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -15,7 +15,6 @@ public class UserController {
     private final UserRepository userRepository;
     private final StringRedisTemplate redisTemplate;
 
-
     @GetMapping("/api/users")
     public ResponseEntity<?> findAll() {
 
@@ -23,8 +22,11 @@ public class UserController {
 
         Long count = redisTemplate.opsForValue()
                 .increment("cnt:/api/users:total");
-    
-        return Resp.ok(Map.of("users", users,"count", count));
+
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("users", users);
+        responseBody.put("count", count);
+
+        return Resp.ok(responseBody);    
     }
-    
 }
